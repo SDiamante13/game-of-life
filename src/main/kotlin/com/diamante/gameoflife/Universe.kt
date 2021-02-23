@@ -1,5 +1,7 @@
 package com.diamante.gameoflife
 
+import java.util.*
+
 class Universe(cellStates: Array<Array<CellState>>) {
 
     private var state: Array<Array<Cell>> = Array(cellStates.size) { Array(cellStates[0].size) { Cell(CellState.DEAD) } }
@@ -11,7 +13,6 @@ class Universe(cellStates: Array<Array<CellState>>) {
             }
         }
     }
-
 
     fun getState(): Array<Array<CellState>> {
         val cellStates = Array(state.size) { Array(state[0].size) { CellState.DEAD } }
@@ -49,8 +50,22 @@ class Universe(cellStates: Array<Array<CellState>>) {
         if (checkLowerLeftIsAlive(row, col)) neighbors++
 
         return neighbors
-
     }
+
+    fun printCells() {
+        state.forEachIndexed { row, states ->
+            states.forEachIndexed { col, _ ->
+                if (state[row][col].cellState == CellState.ALIVE) print("O ")
+                else print("_")
+            }
+            println()
+        }
+        println()
+    }
+
+
+
+
 
     private fun checkLeftIsAlive(row: Int, col: Int): Boolean {
         return col != 0 && state[row][col - 1].cellState == CellState.ALIVE
@@ -84,5 +99,7 @@ class Universe(cellStates: Array<Array<CellState>>) {
         return col != 0 && row != state.size - 1 && state[row + 1][col - 1].cellState == CellState.ALIVE
     }
 
-
+    override fun toString(): String {
+        return "Universe(state=${Arrays.toString(state)})"
+    }
 }
